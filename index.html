@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do Life Dashboard</title>
+
+  <!-- Theme flash prevention: apply saved theme before first paint -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('tdld_theme');
+        document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+
+  <!-- Tailwind CSS v4 via CDN (no build step required) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- Custom styles: glassmorphism + gradient background -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Theme Toggle -->
+  <button id="theme-toggle" aria-label="Toggle theme">🌙 Dark Mode</button>
+
+  <!-- Greeting Widget -->
+  <section id="greeting-widget" aria-label="Greeting">
+    <p id="clock"></p>
+    <p id="date"></p>
+    <p id="greeting"></p>
+    <label for="name-input">Your name:</label>
+    <input id="name-input" type="text" maxlength="50" placeholder="Enter your name" />
+    <div class="btn-row">
+      <button id="name-submit">Save</button>
+      <button id="name-clear">Clear</button>
+    </div>
+    <span class="validation-msg" hidden></span>
+    <p class="error-msg" aria-live="polite" hidden></p>
+  </section>
+
+  <!-- Focus Timer Widget -->
+  <section id="timer-widget" aria-label="Focus Timer">
+    <p id="timer-display">25:00</p>
+    <div class="btn-row">
+      <button id="timer-start">▶ Start</button>
+      <button id="timer-stop" disabled>⏸ Stop</button>
+      <button id="timer-reset">↺ Reset</button>
+    </div>
+    <p id="timer-notification" hidden>🎉 Time's up! Great work.</p>
+    <p class="error-msg" aria-live="polite" hidden></p>
+  </section>
+
+  <!-- Task List Widget -->
+  <section id="task-widget" aria-label="Task List">
+    <div class="btn-row">
+      <input id="task-input" type="text" maxlength="200" placeholder="Add a new task…" />
+      <button id="task-add">Add</button>
+      <button id="task-sort">Sort</button>
+    </div>
+    <span class="validation-msg" hidden></span>
+    <p class="error-msg" aria-live="polite" hidden></p>
+    <ul id="task-list"></ul>
+  </section>
+
+  <!-- Quick Links Widget -->
+  <section id="links-widget" aria-label="Quick Links">
+    <input id="link-label-input" type="text" maxlength="100" placeholder="Label (e.g. GitHub)" />
+    <input id="link-url-input" type="url" placeholder="https://example.com" />
+    <button id="link-add">Add Link</button>
+    <span class="validation-msg link-label-msg" hidden></span>
+    <span class="validation-msg link-url-msg" hidden></span>
+    <p class="error-msg" aria-live="polite" hidden></p>
+    <div id="links-panel"></div>
+  </section>
+
+  <!-- Single JS file inside js/ -->
+  <script src="js/app.js"></script>
+</body>
+</html>
