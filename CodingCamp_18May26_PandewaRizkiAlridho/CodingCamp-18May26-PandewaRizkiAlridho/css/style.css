@@ -1,0 +1,473 @@
+/* ============================================================
+   To-Do Life Dashboard — styles
+   Tailwind CSS v4 (CDN) + custom glassmorphism + gradient bg
+   ============================================================ */
+
+/* ---------- CSS custom properties (light theme) ---------- */
+:root {
+  --glass-bg:      rgba(255, 255, 255, 0.15);
+  --glass-border:  rgba(255, 255, 255, 0.30);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.18);
+  --glass-blur:    blur(18px);
+
+  --text-primary:   #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.80);
+  --text-muted:     rgba(255, 255, 255, 0.55);
+
+  --input-bg:      rgba(255, 255, 255, 0.12);
+  --input-border:  rgba(255, 255, 255, 0.25);
+  --input-focus:   rgba(255, 255, 255, 0.50);
+
+  --btn-primary-bg:    rgba(139, 92, 246, 0.75);
+  --btn-primary-hover: rgba(139, 92, 246, 0.95);
+  --btn-danger-bg:     rgba(239, 68, 68, 0.65);
+  --btn-danger-hover:  rgba(239, 68, 68, 0.85);
+  --btn-neutral-bg:    rgba(255, 255, 255, 0.18);
+  --btn-neutral-hover: rgba(255, 255, 255, 0.30);
+
+  --accent:       #a78bfa;
+  --success:      #34d399;
+  --error-color:  #fca5a5;
+}
+
+/* ---------- Dark theme overrides ---------- */
+[data-theme="dark"] {
+  --glass-bg:      rgba(15, 10, 40, 0.45);
+  --glass-border:  rgba(255, 255, 255, 0.12);
+  --glass-shadow:  0 8px 32px rgba(0, 0, 0, 0.45);
+
+  --text-primary:   #f1f0ff;
+  --text-secondary: rgba(241, 240, 255, 0.78);
+  --text-muted:     rgba(241, 240, 255, 0.45);
+
+  --input-bg:      rgba(255, 255, 255, 0.07);
+  --input-border:  rgba(255, 255, 255, 0.14);
+  --input-focus:   rgba(167, 139, 250, 0.50);
+
+  --btn-primary-bg:    rgba(109, 40, 217, 0.80);
+  --btn-primary-hover: rgba(109, 40, 217, 1);
+  --btn-neutral-bg:    rgba(255, 255, 255, 0.10);
+  --btn-neutral-hover: rgba(255, 255, 255, 0.20);
+}
+
+/* ---------- Reset & base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Gradient background ---------- */
+body {
+  min-height: 100vh;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 30%, #7c3aed 60%, #db2777 100%);
+  background-attachment: fixed;
+  padding: 2rem 1rem;
+  transition: background 0.4s ease;
+}
+
+[data-theme="dark"] body {
+  background: linear-gradient(135deg, #0f0a28 0%, #1e1040 35%, #2d1b69 65%, #4a1942 100%);
+}
+
+/* ---------- Dashboard grid ---------- */
+body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Theme toggle sits outside the grid flow */
+#theme-toggle {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
+/* ---------- Glassmorphism card ---------- */
+section {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 1.25rem;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Greeting widget ---------- */
+#greeting-widget {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+#clock {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--text-primary);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+#date {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+#greeting {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}
+
+/* ---------- Focus timer widget ---------- */
+#timer-display {
+  font-size: 4rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  text-shadow: 0 0 20px rgba(167, 139, 250, 0.6);
+}
+
+#timer-notification {
+  text-align: center;
+  color: var(--success);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ---------- Task list widget ---------- */
+#task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+#task-list::-webkit-scrollbar        { width: 4px; }
+#task-list::-webkit-scrollbar-track  { background: transparent; }
+#task-list::-webkit-scrollbar-thumb  { background: var(--glass-border); border-radius: 2px; }
+
+#task-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  transition: background 0.15s ease;
+}
+
+#task-list li:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+#task-list li.completed span.task-label {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Task label fills available space */
+#task-list li span.task-label {
+  flex: 1;
+  font-size: 0.9rem;
+  word-break: break-word;
+}
+
+/* Inline edit input inside a task row */
+#task-list li input.task-edit-input {
+  flex: 1;
+  background: var(--input-bg);
+  border: 1px solid var(--input-focus);
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+/* Small action buttons inside task rows */
+#task-list li button {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* ---------- Quick links widget ---------- */
+#links-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.25rem;
+}
+
+#links-panel a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--btn-primary-bg);
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+#links-panel a:hover {
+  background: var(--btn-primary-hover);
+  transform: scale(1.04);
+}
+
+/* Delete button next to each link chip */
+#links-panel .link-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+#links-panel .link-item button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  background: var(--btn-danger-bg);
+  border-color: transparent;
+}
+
+#links-panel .link-item button:hover:not(:disabled) {
+  background: var(--btn-danger-hover);
+}
+
+/* ---------- Inputs ---------- */
+input[type="text"],
+input[type="url"] {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.65rem;
+  padding: 0.55rem 0.9rem;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]::placeholder,
+input[type="url"]::placeholder {
+  color: var(--text-muted);
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.25);
+}
+
+input[aria-invalid="true"] {
+  border-color: var(--error-color);
+  box-shadow: 0 0 0 3px rgba(252, 165, 165, 0.25);
+}
+
+/* ---------- Buttons ---------- */
+button {
+  cursor: pointer;
+  border-radius: 0.65rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--btn-neutral-bg);
+  border: 1px solid var(--glass-border);
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--btn-neutral-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Primary action buttons */
+#name-submit,
+#task-add,
+#link-add,
+#timer-start {
+  background: var(--btn-primary-bg);
+  border-color: transparent;
+}
+
+#name-submit:hover:not(:disabled),
+#task-add:hover:not(:disabled),
+#link-add:hover:not(:disabled),
+#timer-start:hover:not(:disabled) {
+  background: var(--btn-primary-hover);
+}
+
+/* Danger buttons */
+#name-clear {
+  background: var(--btn-danger-bg);
+  border-color: transparent;
+}
+
+#name-clear:hover:not(:disabled) {
+  background: var(--btn-danger-hover);
+}
+
+/* Button row layout */
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- Theme toggle button ---------- */
+#theme-toggle {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: 9999px;
+  padding: 0.5rem 1.4rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  margin-bottom: 0.5rem;
+}
+
+#theme-toggle:hover {
+  background: var(--btn-neutral-hover);
+  transform: scale(1.04);
+}
+
+/* ---------- Validation & error messages ---------- */
+.validation-msg {
+  font-size: 0.8rem;
+  color: var(--error-color);
+  font-weight: 500;
+}
+
+.error-msg {
+  font-size: 0.8rem;
+  color: var(--error-color);
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.30);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+}
+
+/* ---------- Labels ---------- */
+label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ---------- Section headings via ::before ---------- */
+#greeting-widget::before { content: none; }
+
+#timer-widget::before {
+  content: "⏱ Focus Timer";
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+#task-widget::before {
+  content: "✅ Tasks";
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+#links-widget::before {
+  content: "🔗 Quick Links";
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (max-width: 640px) {
+  body {
+    grid-template-columns: 1fr;
+    padding: 1rem 0.75rem;
+  }
+
+  #clock        { font-size: 2.5rem; }
+  #timer-display { font-size: 3rem; }
+}
+
+/* ---------- Animated gradient orbs (decorative) ---------- */
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+  animation: float 12s ease-in-out infinite alternate;
+}
+
+body::before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -100px;
+  left: -100px;
+}
+
+body::after {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #db2777, transparent 70%);
+  bottom: -80px;
+  right: -80px;
+  animation-delay: -6s;
+}
+
+@keyframes float {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 30px) scale(1.08); }
+}
